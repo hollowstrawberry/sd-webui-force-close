@@ -7,8 +7,14 @@ def on_ui_tabs():
         close_button.click(lambda: os._exit(0))
     return [(tab, "Force Close", "force_close")]
 
+def on_app_started(blocks, app):
+    @app.post("/force_close")
+    async def force_close():
+        os._exit(0)
+
 try:
     from modules import script_callbacks
     script_callbacks.on_ui_tabs(on_ui_tabs)
+    script_callbacks.on_app_started(on_app_started)
 except Exception as e:
     print(e)
